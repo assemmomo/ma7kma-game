@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>القاضي – لعبة المحكمة</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4ecdc;--fg:#2a2118;--card:#fffaf0;--mut:#7a6a55;--acc:#8a5a14;--ln:#d8c7a4;--bad:#a52a2a;--ok:#2d6a3e;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1712;--fg:#f0e6d2;--card:#2a231a;--mut:#b3a284;--acc:#e0b052;--ln:#4a3f2e;--bad:#e27a7a;--ok:#7fc68f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1c1712;--fg:#f0e6d2;--card:#2a231a;--mut:#b3a284;--acc:#e0b052;--ln:#4a3f2e;--bad:#e27a7a;--ok:#7fc68f;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",Arial,sans-serif;line-height:1.8}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.6rem;margin:.2em 0;color:var(--acc)}h2{font-size:1.15rem;margin:.2em 0}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:14px;margin:10px 0}
+.mut{color:var(--mut);font-size:.9rem}
+button{font:inherit;cursor:pointer;border:1px solid var(--acc);background:transparent;color:var(--fg);border-radius:10px;padding:8px 14px;margin:3px}
+button.p{background:var(--acc);color:var(--bg);font-weight:700}
+button.on{background:var(--acc);color:var(--bg)}
+button:disabled{opacity:.45;cursor:default}
+nav{display:flex;flex-wrap:wrap;gap:2px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0;z-index:5}
+.tag{display:inline-block;border:1px solid var(--ln);border-radius:20px;padding:0 10px;font-size:.85rem;margin-inline-start:6px;color:var(--mut)}
+.q{border-inline-start:3px solid var(--acc);padding-inline-start:10px;margin:8px 0}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+label{display:block;padding:6px 0;cursor:pointer}
+body{font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif;background:radial-gradient(ellipse at top,var(--card),var(--bg) 60%) fixed}
+main{padding-bottom:90px}
+.hero{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#4a2c0b,#8a5a14);color:#fff7e3;border-radius:16px;padding:14px 18px;box-shadow:0 6px 18px #0003;border-bottom:4px solid #e0b052}
+.hero h1{color:#fff7e3;margin:0}.hero .mut{color:#f0d9a8}
+.hero.big{padding:26px 18px}.hero.big h1{font-size:2.2rem}
+.seal{font-size:2.4rem;background:#0003;border-radius:50%;width:64px;height:64px;display:grid;place-items:center;flex:none}
+.card{box-shadow:0 2px 8px #0002;position:relative}
+.sus{padding-inline-start:78px;min-height:70px}.av{position:absolute;inset-inline-start:14px;top:14px;width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--bg);display:grid;place-items:center;font-size:1.5rem;font-weight:900}
+.evc{border-inline-start:5px solid var(--acc)}.wit{border-inline-start:5px solid var(--mut)}
+nav button{border-radius:20px;background:var(--card)}nav button.on{background:var(--acc)}
+.pin{font-size:.8rem;padding:2px 10px;border-color:var(--ln);color:var(--mut)}
+.fab{position:fixed;inset-inline-start:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--acc);color:var(--bg);font-weight:700;border-radius:30px;padding:10px 18px;box-shadow:0 4px 14px #0005}
+.sheet{position:fixed;inset-inline:0;bottom:0;z-index:30;background:var(--card);border-top:3px solid var(--acc);border-radius:16px 16px 0 0;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .25s;box-shadow:0 -6px 20px #0005;max-width:760px;margin:0 auto}
+.sheet.show{transform:none}.sh{display:flex;justify-content:space-between;align-items:center}
+.sheet textarea{width:100%;height:32vh;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--ln);border-radius:10px;padding:10px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+.dif{padding:14px 8px;border-radius:14px;background:var(--bg);line-height:1.5}.dif.on{background:var(--acc);color:var(--bg);box-shadow:0 0 0 3px var(--ln)}
+.ld{text-align:center;padding:30px 10px}.gv{font-size:3.4rem;display:inline-block;transform-origin:80% 80%;animation:bang 1s ease-in-out infinite}
+@keyframes bang{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(20deg)}}
+.bar{height:6px;background:var(--ln);border-radius:6px;overflow:hidden;margin:16px auto;max-width:260px}.bar i{display:block;height:100%;width:40%;background:var(--acc);border-radius:6px;animation:slide 1.2s ease-in-out infinite alternate}
+@keyframes slide{from{margin-inline-start:0}to{margin-inline-start:60%}}
+
+.timeline{position:relative;margin:12px 4px;padding-inline-start:24px;border-inline-start:3px solid var(--ln)}
+.tl-item{position:relative;background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;margin:10px 0}
+.tl-item:before{content:"";position:absolute;inset-inline-start:-32px;top:17px;width:12px;height:12px;border-radius:50%;background:var(--acc);border:3px solid var(--bg)}
+.tl-time{font-weight:900;color:var(--acc)}
+.challenge{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.challenge select{font:inherit;max-width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--ln);border-radius:8px;padding:8px}
+.rank{display:inline-block;border:1px solid var(--ln);border-radius:20px;padding:3px 10px;color:var(--acc);font-weight:700}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.hero.big h1{font-size:1.8rem}}
+</style>
+</head>
+<body><main id="app"></main>
+<script>
+var QS=["أين كنت وقت الجريمة بالضبط؟","ما علاقتك بالضحية أو بالمكان؟","هل كان بينك وبين أحد خلاف؟","ماذا رأيت أو سمعت من أمور مريبة؟","هل أنت متأكد من التوقيتات التي ذكرتها؟"];
+var FALLBACK={title:"اختفاء المخطوطة النادرة",crime:"سرقة مخطوطة نادرة من قبو مكتبة الجامعة",place:"قبو المخطوطات – مكتبة جامعة النيل",time:"الخميس، بين 21:30 و22:15",
+report:"اكتُشف اختفاء مخطوطة «رحلة القوافل» صباح الجمعة. الخزانة الزجاجية فُتحت بمفتاح أصلي دون كسر. القبو لا يُفتح إلا ببطاقة إلكترونية. المحقق الأولي: السارق يعرف المكان جيدًا.",
+evidence:[{title:"سجل البطاقات الإلكترونية",text:"أمين المكتبة: دخول 08:00. الباحث: دخل القبو 17:00 وخرج 17:40. الحارس: دوريات حتى 22:10. المرمم كريم: دخل القبو 21:42 وخرج 22:05."},{title:"كاميرا المصعد والقاعة",text:"أمين المكتبة ظهر في قاعة الاجتماعات من 21:15 إلى 23:00 مع لجنة الميزانية."},{title:"تقرير البصمات",text:"بصمات الباحث على الخزانة قديمة نسبيًا. قفازات قطنية رمادية وُجدت في سلة مهملات المرمم بها غبار الورق القديم."},{title:"ملف الحارس",text:"ترك الحارس موقعه عند 22:10 لمدة 10 دقائق ليدخّن في الحديقة. لا شيء يربطه بالخزانة."}],
+suspects:[{id:"s1",name:"د. هشام الفقي",age:52,job:"أمين المكتبة",motive:"عليه ديون كبيرة وكان يعرف قيمة المخطوطة.",statement:"كنت في اجتماع الميزانية طوال الليل. أتمنى ألا تُهينوني بالشكوك.",demeanor:"متوتر جدًا ويتصبب عرقًا."},{id:"s2",name:"سلمى عادل",age:29,job:"باحثة",motive:"رفضت الجامعة طلبها نشر المخطوطة.",statement:"فحصت الخزانة عصرًا بإذن رسمي وغادرت. لم أعد بعدها.",demeanor:"هادئة وحزينة."},{id:"s3",name:"عم مرسي",age:58,job:"حارس الأمن",motive:"فُصل زميله مؤخرًا ويشعر بالمرارة.",statement:"كنت أجري دورياتي. خرجت دقائق قليلة للحديقة.",demeanor:"قلق ويعترف بخطئه بسرعة."},{id:"s4",name:"كريم منصور",age:36,job:"مرمم مخطوطات",motive:"عرض عليه تاجر مبلغًا ضخمًا مقابل المخطوطة.",statement:"غادرت المكتبة الساعة 21:00 بعد انتهاء عملي. وكنت متعبًا.",demeanor:"واثق ومقنع جدًا ويبتسم."}],
+witnesses:[{id:"w1",name:"أم نجلاء",relation:"عاملة نظافة",statement:"رأيت رجلًا بمعطف رمادي يمشي نحو القبو قرابة 20:30. لم أرَ وجهه."}],
+answers:{s1:["في قاعة الاجتماعات مع اللجنة من 21:15.","أنا أمين المكتبة ومسؤول عن المخطوطات.","خلاف إداري عادي مع الباحثة.","لا شيء، كنت مشغولًا بالأرقام.","نعم، المحضر موقّع."],s2:["غادرت الساعة 17:45 تقريبًا.","أبحث في المخطوطات منذ سنتين.","خلاف مع الإدارة على النشر فقط.","لم أرَ شيئًا بعد مغادرتي.","نعم، أنا أسجل خروجي دائمًا."],s3:["في دورياتي، وخرجت 10 دقائق للحديقة بعد 22:10.","أحرس المبنى منذ 12 سنة.","لا، لكني حزين لفصل زميلي.","رأيت ضوء القبو مضاءً وظننت أن العمل مستمر.","نعم، أدوّن الأوقات في دفتري."],s4:["غادرت 21:00 كما قلت، وكنت في بيتي.","أرمم هنا منذ ثلاث سنوات.","لا، أنا أحب عملي.","رأيت معطفًا رماديًا معلقًا في الممر مساءً.","طبعًا، أنا دقيق جدًا في أوقاتي."],w1:["كنت أنظف الطابق الأرضي.","أعمل هنا من سنين.","لا أعرف أحدًا منهم جيدًا.","رجل بمعطف رمادي نحو القبو.","ليس تمامًا، ربما كانت 21:30 لا 20:30، فأنا أخلط الأوقات."]},
+truth:{culpritIds:["s4"],explanation:"كريم كذب في وقت مغادرته؛ سجل البطاقات يثبت وجوده في القبو من 21:42 إلى 22:05. وجدت قفازات تحمل غبار الورق القديم في سلة مهملاته. شهادة عاملة النظافة صحيحة في جوهرها، لكن الوقت الفعلي 21:30 لا 20:30. أمين المكتبة متوتر لكنه مبرَّأ بالكاميرا، والحارس لا دليل ضده، والباحثة خرجت قبل الجريمة بساعات.",keyEvidence:[0,2],innocentNotes:{s1:"توتره بسبب ديونه لكن الكاميرا تثبت وجوده في الاجتماع.",s2:"غادرت 17:40 حسب السجل.",s3:"خروجه للحديقة لا علاقة له بالخزانة."}}};
+var S={level:1,c:null,tab:"file",who:null,asked:{},seen:{},pick:{},ev:{},done:false,busy:false,notes:"",open:false,confrontations:{}};
+try{S.level=+localStorage.getItem("lvl")||1}catch(e){}
+var $=function(i){return document.getElementById(i)};
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function levelName(){return["سهل","متوسط","صعب","مستحيل"][(S.diff||1)-1]}
+var HB='<div class="hero big"><div class="seal">⚖️</div><div><h1>القاضي</h1><div class="mut">قاعة المحكمة تنتظر حكمك</div></div></div>';
+var DN={};try{DN=JSON.parse(localStorage.getItem("done")||"{}")}catch(e){}
+var FL={};try{FL=JSON.parse(localStorage.getItem("fail")||"{}")}catch(e){}
+function mark(){if(!S.cid)return;var cu=S.c.truth.culpritIds,pk=Object.keys(S.pick).filter(function(k){return S.pick[k]}),chosen=Object.keys(S.ev).filter(function(k){return S.ev[k]}).map(Number),hasKey=chosen.some(function(i){return S.c.truth.keyEvidence.indexOf(i)>=0}),ok=pk.length===cu.length&&pk.every(function(k){return cu.indexOf(k)>=0})&&hasKey,d=S.diff,l=DN[d]=DN[d]||[],f=FL[d]=FL[d]||[],i=f.indexOf(S.cid);
+ if(ok){if(l.indexOf(S.cid)<0)l.push(S.cid);if(i>=0)f.splice(i,1)}else if(i<0&&l.indexOf(S.cid)<0)f.push(S.cid);
+ try{localStorage.setItem("done",JSON.stringify(DN));localStorage.setItem("fail",JSON.stringify(FL))}catch(e){}}
+function R(s){return function(n){s=(s*1664525+1013904223)%4294967296;return Math.floor(s/4294967296*n)}}
+function F(m){var h=Math.floor(m/60)%24,x=m%60;return(h<10?"0":"")+h+":"+(x<10?"0":"")+x}
+var SC=[["اختفاء المخطوطة النادرة","سرقة مخطوطة نادرة","قبو مكتبة الجامعة","المخطوطة",["أمين المكتبة","باحث","حارس أمن","مرمّم","مفهرس","موظف استعارة","فني صيانة"]],["لغز العقد الماسي","سرقة عقد ألماس","خزنة متجر الأصيل للمجوهرات","العقد",["صائغ","محاسب","حارس","بائع","مصمم مجوهرات","عامل نظافة","مورّد"]],["سرقة اللوحة","سرقة لوحة زيتية","قاعة متحف الفنون","اللوحة",["أمين المتحف","مرشد سياحي","حارس","مرمّم لوحات","مصوّر","موظف استقبال","فني إضاءة"]],["تسريب الصيغة السرية","سرقة ملف صيغة دوائية سرية","مختبر شركة الشفاء","الملف",["كيميائي","مدير الجودة","فني مختبر","سكرتير","حارس","مسؤول تقنية","مندوب مبيعات"]],["خزنة الفندق","سرقة مبلغ من خزنة الفندق","غرفة الخزنة بفندق النيل","المبلغ",["مدير الفندق","محاسب","موظف استقبال","عامل خدمة غرف","حارس","طاهٍ","فني صيانة"]],["الكأس المفقود","سرقة كأس ذهبي أثري","متحف النادي الرياضي","الكأس",["مدير النادي","مدرب","حارس","أمين الصندوق","مسؤول المعدات","مصوّر النادي","عامل صيانة"]],["قرص البيانات","سرقة قرص بيانات سري","غرفة الخوادم بمقر الشركة","القرص",["مدير تقنية","مبرمج","محلل أمن","مدير مالي","حارس","فني شبكات","مسؤول مشتريات"]],["سرقة قبل المزاد","سرقة قطعة نادرة قبل المزاد","دار المزادات الكبرى","القطعة",["منظّم المزاد","خبير تقييم","حارس","ناقل قطع","محاسب","موظف تسجيل","تاجر مشارك"]],["أسرار المصنع","سرقة نموذج أولي من المصنع","ورشة مصنع الأمل","النموذج",["مهندس التصميم","مشرف الورشة","حارس","فني لحام","محاسب","مسؤول المخزن","سائق نقل"]],["جريمة في القصر","جريمة قتل صاحب القصر","مكتبة قصر الأعيان","عُثر على صاحب القصر ميتًا بين رفوف مكتبته",["ابن أخ المتوفى","الطباخ","السكرتير","الطبيب الخاص","الحارس","محامي العائلة","البستاني"],"m"],["الموت في المستشفى","جريمة قتل رئيس قسم الجراحة","مكتب رئيس قسم الجراحة","عُثر على رئيس قسم الجراحة ميتًا في مكتبه",["ممرض","طبيب مقيم","مدير المستشفى","صيدلي","فني أشعة","سكرتيرة القسم","حارس"],"m"],["الليلة الأخيرة","جريمة قتل رجل أعمال","شقة رجل الأعمال بالطابق العاشر","عُثر على رجل الأعمال ميتًا داخل شقته",["شريك في العمل","سائق خاص","جار","مديرة المكتب","طاهٍ","ابن عم","موظف أمن العمارة"],"m"],["اختطاف العالِم","جريمة اختطاف عالِم","مختبر معهد الأبحاث","اختُطف عالِم من معهد الأبحاث",["مساعد باحث","مدير المعهد","حارس","سائق","فني مختبر","مسؤول التمويل","سكرتير"],"k"],["اختطاف الصحفي","جريمة اختطاف صحفي","مبنى جريدة الصباح","اختُطف صحفي من مبنى الجريدة",["رئيس التحرير","مصور","حارس","سائق","محرر","مدقق","مسؤول أرشيف"],"k"],["اختطاف المدير","جريمة اختطاف مدير شركة","موقف سيارات شركة النور","اختُطف مدير الشركة من موقف السيارات",["نائب المدير","سائق","حارس","مساعد شخصي","محاسب","مستشار","فني صيانة"],"k"]];
+var NM=["أحمد","محمود","هشام","كريم","طارق","ياسر","خالد","عمر","سامي","وليد","نادر","رامي","سلمى","منى","ليلى","هدى","دينا","نورا","رنا","سارة","مروة","ياسمين","ريم","حسام","أيمن","مراد"],LN=["الفقي","منصور","عادل","السيد","حافظ","الشاذلي","رضوان","نصار","فوزي","البنا","سلامة","جابر","عيسى","الحداد"],MO=["عليه ديون كبيرة.","تلقّى عرضًا مغريًا من منافس.","فُصل زميله مؤخرًا ويشعر بالمرارة.","رُفضت ترقيته مرتين.","كان على خلاف مع الإدارة.","يحتاج مالًا لعلاج قريب له."],SG=["قفازات رمادية","قلم حبر أزرق نادر","حقيبة جلدية بنية","مظلة حمراء","قبعة صوفية سوداء"],SR=["كاميرا مراقبة","إيصال بطاقة مصرفية","سجل مكالمات","محضر اجتماع"],AL=["المقهى المقابل","قاعة الاجتماعات","محطة المترو","مطعم الشارع الخلفي","مكتب الإدارة","الطابق العلوي"];
+function build(d,k){var r=R(d*7919+k*104729+13),sc=SC[(k+d*3)%SC.length],n=d+3,pl=sc[2];
+ function pk(a){return a.splice(r(a.length),1)[0]}
+ var fn=NM.slice(),ln=LN.slice(),ro=sc[4].slice(),sg=SG.slice(),i;
+ var nc=d===1?1:(r(100)<[0,30,50,70][d-1]?2:1),W0=1260+5*r(7),W1=W0+25,P=[];
+ for(i=0;i<n;i++)P.push({id:"s"+(i+1),name:pk(fn)+" "+pk(ln),job:pk(ro),age:25+r(35),motive:MO[r(MO.length)]});
+ var cu=[],ix=P.slice();for(i=0;i<nc;i++)cu.push(pk(ix));
+ var inn=P.filter(function(p){return cu.indexOf(p)<0}),T=(d>=3?["decoy","early","alibi","decoy","late","alibi"]:["decoy","early","alibi","late","early","alibi"]).slice(0,inn.length);
+ inn.forEach(function(p,q){p.t=T[q];p.alt=AL[r(AL.length)];p.src=SR[r(4)];p.nerv=r(100)<40;p.say=[];
+  if(p.t==="early"){p.b=W0-15-5*r(8);p.a=p.b-30-r(60)}
+  if(p.t==="late"){p.a=W1+10+5*r(6);p.b=p.a+30}
+  if(p.t==="alibi"){p.a=W0-20;p.b=W1+20}
+  if(p.t==="decoy"){p.a=W0+3+r(5);p.b=p.a+10}});
+ var rf=inn.filter(function(p){return p.t!=="decoy"});
+ var LK=["human","digital","financial"];
+ cu.forEach(function(p,q){p.t="cul";p.alt=AL[r(AL.length)];p.claim=W0-20-5*r(5);p.a=W0+r(6);p.b=W1-r(4);p.sig=sg[q];p.lk=LK[(q+k+d)%3];p.ref=rf[r(rf.length)]||inn[0];if(p.lk==="human")p.ref.say.push(p)});
+ var sigs=cu.map(function(p){return p.sig}).join(" و");
+ function E(ty,ti,tx,ky){return{type:ty,title:ti,text:tx,k:ky?1:0}}
+ var rep=E("تقرير",sc[5]==="m"?"تقرير الطب الشرعي":sc[5]==="k"?"تقرير الاختطاف":"تقرير الواقعة","اكتُشفت "+sc[1]+" في "+pl+". "+(sc[5]==="m"?"حدّد الطب الشرعي وقت الوفاة بين ":sc[5]==="k"?"تُظهر الكاميرات وآخر اتصال أن الاختطاف تم بين ":"قدّر المحققون وقوعها بين ")+F(W0)+" و"+F(W1)+".");
+ var ev=[];
+ ev.push(E("زمني","سجل الدخول والخروج",P.map(function(p){return p.name+": "+(p.t==="alibi"?"لا تسجيل دخول مساءً.":"دخول "+F(p.a)+"، خروج "+F(p.b)+".")}).join(" ")+" (السجل يثبت الحضور فقط ولا يبيّن من فعل ماذا.)",1));
+ ev.push(E("مادي","الأدلة المادية في مسرح الجريمة","عُثر في مسرح الجريمة على "+sigs+"، ولا يحمل أيٌّ منها اسم صاحبه.",1));
+ cu.forEach(function(p){
+  if(p.lk==="human")ev.push(E("بشري","محضر إفادة "+p.ref.name,p.ref.name+" أفاد بأنه رأى "+p.name+" يحمل "+p.sig+" قبل الواقعة بوقت قصير، لكنه لم يجزم بالتوقيت بدقة.",1));
+  if(p.lk==="digital")ev.push(E("رقمي","سجل هاتف "+p.name,"رسالة أُرسلت قبل الواقعة بساعات إلى رقم مجهول نصها: «سأحمل "+p.sig+" كما اتفقنا».",1));
+  if(p.lk==="financial")ev.push(E("مالي","كشف حساب "+p.name,"شراء "+p.sig+" قبل الواقعة بيومين، وتحويل مبلغ كبير مفاجئ إلى حسابه من جهة غير معروفة.",1))});
+ var al2=inn.filter(function(p){return p.t==="alibi"}),dc=inn.filter(function(p){return p.t==="decoy"});
+ if(al2.length)ev.push(E("زمني","سجلات الأدلة الجانبية",al2.map(function(p){return p.src+" يثبت وجود "+p.name+" في "+p.alt+" من "+F(p.a)+" إلى "+F(p.b)+"."}).join(" ")));
+ ev.push(E("زمني","أوامر العمل",dc.map(function(p){return "كُلّف "+p.name+" ("+p.job+") بمهمة طارئة داخل "+pl+" من "+F(p.a)+" إلى "+F(p.b)+"."}).join(" ")));
+ var hn=d-1,pool=inn.slice();
+ while(hn-->0&&pool.length){var h=pk(pool);h.hr=hn%2?"fin":"dig";ev.push(h.hr==="fin"?E("مالي","كشف حساب "+h.name,"ديون متأخرة كبيرة وإنذار من البنك قبل الواقعة بأسبوع."):E("رقمي","سجل هاتف "+h.name,"مكالمة غاضبة قبل الواقعة بساعات، وبعدها رسالة نصها: «سأنهي هذا الأمر الليلة».") )}
+ var c1=cu[0],tw=F(W0-60+r(10)),wi=[{id:"w1",name:pk(fn)+" "+pk(ln),relation:"موظف في المبنى المجاور",statement:"رأيت شخصًا يحمل "+c1.sig+" يتجه نحو "+pl+" قرابة "+tw+"، ولم أتبيّن وجهه."}];
+ ev.push(E("بشري","محضر إفادة الشاهد "+wi[0].name,wi[0].statement+" (الشاهد غير متأكد من الوقت ولا من هوية الشخص.)"));
+ var e2=inn.filter(function(p){return p.t==="early"||p.t==="late"})[0];
+ if(d>=2&&e2)wi.push({id:"w2",name:pk(fn)+" "+pk(ln),relation:"عامل في المكان",statement:"رأيت "+e2.name+(e2.t==="early"?" يغادر ":" يصل إلى ")+pl+" قرابة "+F(e2.t==="early"?e2.b:e2.a)+"."});
+ for(i=ev.length-1;i>0;i--){var j=r(i+1),t=ev[i];ev[i]=ev[j];ev[j]=t}
+ var key=[];ev.forEach(function(e,q){if(e.k)key.push(q+1);delete e.k});ev.unshift(rep);
+ var x0=inn[r(inn.length)],qs={},an={},su;
+ function put(id,a){qs[id]=a.map(function(z){return z[0]});an[id]=a.map(function(z){return z[1]})}
+ var Q1="أين كنت بين "+F(W0)+" و"+F(W1)+"؟",Q2="كيف تفسر ما ورد عنك في سجل الدخول والخروج؟",Q5="هل رأيت أحدًا مريبًا قرب "+pl+"؟";
+ P.forEach(function(p){var a;
+  if(p.t==="cul"){var s3={human:["هل كنت تحمل "+p.sig+" ذلك المساء؟","لا، لا أحمل أشياء كهذه."],digital:["ما محتوى رسائلك الأخيرة قبل الواقعة؟","رسائل عادية مع الأصدقاء."],financial:["هل اشتريت شيئًا أو تلقيت أموالًا بشكل غير معتاد مؤخرًا؟","لا، أموري المالية عادية جدًا."]}[p.lk];
+   a=[[Q1,"غادرت "+pl+" الساعة "+F(p.claim)+" وذهبت إلى "+p.alt+"."],[Q2,"لا بد أن النظام أخطأ في تسجيل بطاقتي."],s3,["هل كان بينك وبين أحد في "+pl+" خلاف؟","لا، علاقتي بالجميع طبيعية."],[Q5,"لاحظت "+x0.name+" متوترًا قرب المكان مساءً."]]}
+  else{var q1=p.t==="early"?"غادرت "+pl+" الساعة "+F(p.b)+" وبقيت في "+p.alt+".":p.t==="late"?"وصلت "+pl+" الساعة "+F(p.a)+" فوجدت الإنذار مفعّلًا.":p.t==="alibi"?"كنت في "+p.alt+" من "+F(p.a)+" إلى "+F(p.b)+".":"دخلت "+pl+" الساعة "+F(p.a)+" لمهمة عمل وخرجت "+F(p.b)+".";
+   var q2={early:"غادرت قبل الواقعة كما يبيّن السجل.",late:"وصلت بعد أن انتهى كل شيء.",alibi:"لم أدخل المكان مساءً أصلًا.",decoy:"دخلت بأمر عمل رسمي وخرجت بعد دقائق دون أن أرى شيئًا."}[p.t];
+   var s=p.say[0],q3=["هل تعرف شيئًا عن "+sigs+" التي وُجدت في "+pl+"؟",s?"نعم، رأيت "+s.name+" يحمل "+s.sig+" قبل الواقعة بوقت قصير.":"لا أعرف شيئًا عنها."];
+   var q4=p.hr==="fin"?["ما تفسيرك لديونك المتأخرة؟","ديني قديم ولا علاقة له بما حدث، وكنت حيث أخبرتكم."]:p.hr==="dig"?["ماذا قصدت برسالتك «سأنهي هذا الأمر الليلة»؟","كنت أقصد إنهاء خلاف إداري لا أكثر."]:["هل كان بينك وبين أحد في "+pl+" خلاف؟",r(2)?"خلاف عادي مع الإدارة.":"لا شيء يُذكر."];
+   a=[[Q1,q1],[Q2,q2],q3,q4,["هل أنت متأكد من التوقيتات التي ذكرتها؟",p.nerv?"أظن ذلك، لكن لا أذكر الدقائق بالضبط.":"نعم، والسجلات تثبت ذلك."]]}
+  put(p.id,a)});
+ put("w1",[["أين كنت وقت الحادثة؟","كنت أنظّم المكان المجاور."],["ماذا رأيت بالضبط؟","شخصًا يحمل "+c1.sig+" يتجه نحو "+pl+"."],["هل رأيت وجهه بوضوح؟","لا، كان بعيدًا والإضاءة ضعيفة."],["هل أنت متأكد من الوقت؟","ليس تمامًا، ربما كان بعد ساعة تقريبًا فأنا أخلط الأوقات."],["هل تعرف أيًّا من المتهمين؟","لا أعرفهم جيدًا."]]);
+ if(wi[1])put("w2",[["أين كنت وقت الحادثة؟","كنت في مكان عملي."],["ماذا رأيت بالضبط؟","رأيت "+e2.name+" كما ذكرت."],["هل رأيت وجهه بوضوح؟","نعم، أعرفه جيدًا."],["هل أنت متأكد من الوقت؟","نعم، لأنني نظرت إلى الساعة."],["هل لاحظت شيئًا آخر مريبًا؟","لا، لم ألاحظ شيئًا آخر."]]);
+ su=P.map(function(p){return{id:p.id,name:p.name,age:p.age,job:p.job,motive:p.motive,statement:an[p.id][0],demeanor:p.t==="cul"?["واثق ومقنع","هادئ جدًا"][r(2)]:p.nerv?"متوتر جدًا":["هادئ","قلق","غاضب"][r(3)]}});
+ var nt={};inn.forEach(function(p){nt[p.id]={early:"غادر قبل الجريمة حسب السجل.",late:"وصل بعد انتهاء الجريمة.",alibi:"ثبت وجوده في "+p.alt+" بـ"+p.src+".",decoy:"وجوده مبرَّر بأمر عمل رسمي."}[p.t]+(p.hr?" والدليل ضده مجرد دافع لا أكثر.":"")+(p.nerv?" وتوتره لا يدل على شيء.":"")});
+ var LD={human:function(p){return "إفادة "+p.ref.name+" التي رأته يحمل "+p.sig},digital:function(p){return "رسالة هاتفه عن "+p.sig},financial:function(p){return "كشف حسابه الذي يثبت شراءه "+p.sig+" وتحويلًا مشبوهًا"}};
+ return{title:"قضية #"+(d*100+k)+" – "+sc[0],crime:sc[1],place:pl,time:"مساءً، بين "+F(W0)+" و"+F(W1),report:(sc[5]?sc[3]+" دون علامات اقتحام.":"اكتشف المحقق اختفاء "+sc[3]+" من "+pl+" دون كسر.")+" الفاعل يعرف المكان جيدًا، وقد يكون هناك أكثر من مشارك.",evidence:ev,suspects:su,witnesses:wi,answers:an,qs:qs,truth:{culpritIds:cu.map(function(p){return p.id}),explanation:cu.map(function(p){return p.name+" كذب حين ادّعى مغادرة "+pl+" الساعة "+F(p.claim)+"؛ فالسجل يضعه داخل المكان من "+F(p.a)+" إلى "+F(p.b)+"، لكن الحضور وحده لا يكفي لأن آخرين كانوا هناك أيضًا. ما أدانه هو "+p.sig+" التي وُجدت في مسرح الجريمة، وقد ربطها به "+LD[p.lk](p)}).join(" | ")+". وشهادة الشاهد صحيحة في جوهرها لكن توقيتها أخطأ بنحو ساعة.",keyEvidence:key,innocentNotes:nt}}}
+function newCase(){var d=S.diff,l=[],k,f=FL[d]||[];for(k=1;k<=25;k++)if((DN[d]||[]).indexOf(d*100+k)<0&&f.indexOf(d*100+k)<0)l.push(k);
+ if(!l.length)f.forEach(function(c){l.push(c-d*100)});
+ if(!l.length){pickDiff(["","لقد أتممت كل القضايا السهلة، برجاء التوجه إلى القضايا المتوسطة أو أعلى من ذلك.","لقد أتممت كل القضايا المتوسطة، برجاء التوجه إلى القضايا الصعبة أو المستحيلة.","لقد أتممت كل القضايا الصعبة، برجاء التوجه إلى القضايا المستحيلة.","مبروك! أتممت كل القضايا المستحيلة. أنت قاضٍ أسطوري ⚖️"][d]);return}
+ k=l[Math.floor(Math.random()*l.length)];var candidate=build(d,k);if(!valid(candidate)){home("تعذر التحقق من منطق هذه القضية. جرّب إنشاء قضية أخرى.");return}S.cid=d*100+k;clearSession();start(candidate)}
+function pickDiff(msg){var D=[["سهل",4,"🟢"],["متوسط",5,"🟡"],["صعب",6,"🟠"],["مستحيل",7,"🔴"]];S.diff=S.diff||1;
+ $("app").innerHTML=HB+'<div class="card"><h2>اختر مستوى الصعوبة</h2>'+(typeof msg==="string"?'<p class="bad"><b>'+esc(msg)+'</b></p>':'')+'<div class="grid">'+D.map(function(d,i){return '<button class="dif'+(S.diff===i+1?" on":"")+'" data-d="'+(i+1)+'"><span style="font-size:1.6rem">'+d[2]+'</span><br><b>'+d[0]+'</b><br><small>'+d[1]+' متهمين</small><br><small>'+(DN[i+1]||[]).length+'/25 منجزة'+((FL[i+1]||[]).length?' · '+FL[i+1].length+' للإعادة':'')+'</small></button>'}).join("")+'</div><p class="mut">كلما زاد عدد المتهمين زاد تشابك الأقوال، وقد يكون الجاني واحدًا أو اثنين.</p><button class="p" id="go2">ابدأ</button><button id="bk">رجوع</button></div>';
+ document.querySelectorAll("[data-d]").forEach(function(b){b.onclick=function(){S.diff=+b.dataset.d;document.querySelectorAll("[data-d]").forEach(function(x){x.classList.toggle("on",x===b)})}});
+ $("go2").onclick=newCase;$("bk").onclick=function(){home()}}
+function loading(){var M=["يجري المحقق جمع الأدلة…","تُكتب أقوال المتهمين…","يستمع الشهود لأسئلتك…","تُراجع التوقيتات والتناقضات…","يُثبَّت الحل السري للقضية…"],i=0;
+ $("app").innerHTML=HB+'<div class="card ld" id="ld"><div class="gv">🔨</div><h2>جارٍ تجهيز القضية ('+levelName()+' – '+(S.diff+3)+' متهمين)</h2><div class="bar"><i></i></div><p class="mut" id="lm">'+M[0]+'</p></div>';
+ var t=setInterval(function(){var e=$("lm");if(!e||!$("ld")){clearInterval(t);return}i=(i+1)%M.length;e.textContent=M[i]},2500)}
+function home(msg){var total=Object.keys(DN).reduce(function(n,k){return n+(DN[k]||[]).length},0),rank=total>=60?"قاضي النخبة":total>=35?"قاضٍ متمرس":total>=15?"محقق بارع":total>=5?"محقق مبتدئ":"متدرّب في المحكمة";var has=false;try{has=!!localStorage.getItem("judge_session")}catch(e){}$("app").innerHTML='<div class="hero big"><div class="seal">⚖️</div><div><h1>القاضي</h1><div class="mut">قاعة المحكمة تنتظر حكمك</div><div class="rank">'+rank+' · '+total+' قضية منجزة</div></div></div><div class="card"><p>أنت القاضي. ملف جريمة، عدة متهمين، وشهود. الجاني يكذب بإتقان، والبريء قد يبدو متوترًا. اكشف التناقضات من الأدلة لا بالتخمين. لديك 3 أسئلة فقط لكل شخص، ودفتر ملاحظاتك معك طوال القضية.</p>'+(msg?'<p class="bad">'+esc(msg)+'</p>':'')+'<button class="p" id="gen">قضية جديدة</button>'+(has?'<button id="resume">استكمال آخر قضية</button>':'')+'</div>';
+$("gen").onclick=pickDiff;var rb=$("resume");if(rb)rb.onclick=resumeSession;}
+function valid(c){try{if(!c||!Array.isArray(c.suspects)||!Array.isArray(c.witnesses)||!Array.isArray(c.evidence)||!c.truth)return false;var ids=c.suspects.map(function(s){return s.id});if(ids.length<4||ids.length>7||new Set(ids).size!==ids.length)return false;var cu=c.truth.culpritIds||[c.truth.culpritId];if(!cu.length||cu.length>2||new Set(cu).size!==cu.length||cu.some(function(x){return ids.indexOf(x)<0}))return false;c.truth.culpritIds=cu;var all=ids.concat(c.witnesses.map(function(w){return w.id}));if(new Set(all).size!==all.length)return false;if(!all.every(function(i){return c.answers[i]&&c.answers[i].length===5}))return false;if(!c.evidence.length||c.evidence.length<3||!Array.isArray(c.truth.keyEvidence)||!c.truth.keyEvidence.length)return false;if(c.truth.keyEvidence.some(function(i){return !Number.isInteger(i)||i<0||i>=c.evidence.length}))return false;if(!c.truth.explanation)return false;return true}catch(e){return false}}
+async function gen(){
+ loading();
+ var sample=null;try{sample=await claude.use("sample")}catch(e){}
+ if(!sample){home("الذكاء الاصطناعي غير متاح هنا. جرّب القضية الجاهزة.");return}
+ var n=S.diff+3;
+ var p="أنشئ قضية جنائية بوليسية بالعربية للعبة محكمة. الصعوبة "+S.diff+" من 4. عدد المتهمين "+n+" بالضبط ومعهم 2 إلى 3 شهود. عدد الجناة 1 أو 2 (في المستوى 1 جانٍ واحد فقط، ويجوز جانيان من المستوى 2؛ وإن كانا اثنين فلكل منهما كذبة ودليل مختلف). اللاعب يسأل كل شخص 3 أسئلة فقط من 5، فاجعل الكذبة مكشوفة بالأدلة وبأي 3 أسئلة تقريبًا. الأسئلة الخمسة الثابتة التي سيطرحها اللاعب: "+JSON.stringify(QS)+". لكل متهم وشاهد 5 إجابات بالترتيب تطابق هذه الأسئلة. الجاني يكذب بإقناع في كلمة أو أكثر، لكن يوجد دليل واحد على الأقل يكشف كذبته. أحد الأبرياء متوتر، وشاهد يخطئ في توقيت. راجع التوقيتات والمنطق بحيث يمكن الوصول للحل بالأدلة فقط. لا تذكر الجاني في الملف أو الأدلة صراحة. أعد JSON فقط بهذا الشكل: {title,crime,place,time,report,evidence:[{title,text}] (4 إلى 6),suspects:[{id:'s1',name,age,job,motive,statement,demeanor}],witnesses:[{id:'w1',name,relation,statement}],answers:{s1:[5 نصوص],w1:[5 نصوص]},truth:{culpritIds:['s2'],explanation,keyEvidence:[فهارس الأدلة من صفر التي تكشف الجاني],innocentNotes:{id:'سبب براءته'}}}";
+ for(var t=0;t<2;t++){try{var c=await sample.json(p,{modelTier:"default",cache:false});if(valid(c)){start(c);return}}catch(e){if(e&&e.code==="not_granted"){home("لم يتم السماح باستخدام الذكاء الاصطناعي.");return}}}
+ home("تعذر توليد قضية سليمة المنطق. حاول مجددًا.")}
+function start(c){S.c=c;S.cid=S.cid||((S.diff||1)*100+1);S.tab="file";S.who=null;S.asked={};S.seen={};S.pick={};S.ev={};S.done=false;S.notes="";S.open=false;S.confrontations={};try{S.notes=localStorage.getItem("n_"+c.title)||""}catch(e){}draw()}
+function saveSession(){try{if(S.c)localStorage.setItem("judge_session",JSON.stringify(S));}catch(e){}}
+function resumeSession(){try{var raw=localStorage.getItem("judge_session");if(!raw)return false;var old=JSON.parse(raw);if(!old||!old.c)return false;S=old;draw();return true}catch(e){return false}}
+function clearSession(){try{localStorage.removeItem("judge_session")}catch(e){}}
+var TABS=[["file","📁 الملف"],["ev","🔎 الأدلة"],["timeline","⏱️ الخط الزمني"],["sus","👥 المتهمون"],["wit","🗣️ الشهود"],["int","❓ الاستجواب"],["ver","🔨 الحكم"]];
+function draw(){var c=S.c;S.seen[S.tab]=1;
+ var h='<header class="hero"><div class="seal">⚖️</div><div><div class="mut">ملف قضية – مستوى '+levelName()+'</div><h1>'+esc(c.title)+'</h1></div></header><nav>'+TABS.map(function(t){return '<button class="'+(S.tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join("")+'</nav>';
+ if(S.tab==="file")h+='<div class="card"><h2>'+esc(c.crime)+'</h2><p><b>المكان:</b> '+esc(c.place)+'<br><b>الوقت:</b> '+esc(c.time)+'</p><p><b>تقرير المحقق الأولي:</b> '+esc(c.report)+'</p><p class="mut">الجاني مجهول. ابدأ بفحص الأدلة.</p></div>';
+ if(S.tab==="ev")h+=c.evidence.map(function(e,i){return '<div class="card evc"><h2>🔖 دليل '+(i+1)+': '+esc(e.title)+' <span class="tag">'+esc(e.type||"")+'</span></h2><p>'+esc(e.text)+'</p><button class="pin" data-pin="'+esc(e.title+": "+e.text)+'">📌 إلى ملاحظاتي</button></div>'}).join("");
+ if(S.tab==="timeline"){var items=[];function addTimeline(text,source){var re=/([01]?\d|2[0-3]):([0-5]\d)/g,m;while((m=re.exec(text))!==null){items.push({time:m[0],mins:(+m[1])*60+(+m[2]),text:text,source:source});break}}addTimeline(c.report,"تقرير الواقعة");c.evidence.forEach(function(e){addTimeline(e.title+": "+e.text,e.title)});c.suspects.forEach(function(p){addTimeline(p.name+": "+p.statement,"أقوال المتهمين")});c.witnesses.forEach(function(w){addTimeline(w.name+": "+w.statement,"الشهود")});items.sort(function(a,b){return a.mins-b.mins});h+='<div class="card"><h2>⏱️ الخط الزمني للأحداث</h2><p class="mut">الأوقات المستخرجة من التقرير والأدلة والأقوال. قارن بينها لاكتشاف التناقضات؛ بعض الأوقات قد تكون تقديرية أو غير مؤكدة.</p><div class="timeline">'+(items.length?items.map(function(x){return '<div class="tl-item"><div class="tl-time">'+esc(x.time)+' · '+esc(x.source)+'</div><div>'+esc(x.text)+'</div></div>'}).join(""):'<p>لا توجد توقيتات رقمية كافية في هذه القضية.</p>')+'</div></div>';}
+ if(S.tab==="sus")h+=c.suspects.map(function(s){return '<div class="card sus"><div class="av">'+esc(s.name.replace("د. ","").charAt(0))+'</div><h2>'+esc(s.name)+' <span class="tag">'+esc(s.job)+'، '+esc(s.age)+' سنة</span></h2><p><b>الدافع المحتمل:</b> '+esc(s.motive)+'</p><p><b>روايته:</b> '+esc(s.statement)+'</p><p class="mut">الانطباع: '+esc(s.demeanor)+'</p></div>'}).join("");
+ if(S.tab==="wit")h+=c.witnesses.map(function(w){return '<div class="card wit"><h2>🗣️ '+esc(w.name)+' <span class="tag">'+esc(w.relation)+'</span></h2><p>'+esc(w.statement)+'</p></div>'}).join("");
+ if(S.tab==="int"){var ppl=c.suspects.concat(c.witnesses);h+='<div class="card"><p>اختر شخصًا ثم سؤالًا:</p>'+ppl.map(function(p){return '<button class="'+(S.who===p.id?"on":"")+'" data-w="'+p.id+'">'+esc(p.name)+' ('+(S.asked[p.id]||[]).length+'/3)</button>'}).join("");
+  if(S.who){var ak=S.asked[S.who]||[],left=3-ak.length;h+='<hr><p class="mut">متبقي لك <b>'+left+'</b> من 3 أسئلة لهذا الشخص</p>'+c.qs[S.who].map(function(q,i){return '<button data-q="'+i+'"'+(ak.indexOf(i)>=0||left<=0?" disabled":"")+'>'+esc(q)+'</button>'}).join("")+'<div>'+(S.asked[S.who]||[]).map(function(i){return '<div class="q"><b>'+esc(c.qs[S.who][i])+'</b><br>'+esc(c.answers[S.who][i])+'<br><button class="pin" data-pin="'+esc(ppl.filter(function(p){return p.id===S.who})[0].name+" - "+c.qs[S.who][i]+": "+c.answers[S.who][i])+'">📌 إلى ملاحظاتي</button></div>'}).join("")+'</div><hr><h3>🧩 مواجهة الشخص بدليل</h3><p class="mut">اختر دليلًا مرتبطًا بكلام الشخص، ثم واجهه به. المواجهة تسجل في ملف التحقيق وتساعدك على تنظيم استنتاجاتك.</p><div class="challenge"><select id="challengeEv">'+c.evidence.map(function(e,i){return '<option value="'+i+'">دليل '+(i+1)+': '+esc(e.title)+'</option>'}).join("")+'</select><button class="p" id="challengeBtn">واجه بالدليل</button></div>'+(S.confrontations&&S.confrontations[S.who]?S.confrontations[S.who].map(function(x){return '<div class="q"><b>المواجهة: '+esc(c.evidence[x.e].title)+'</b><br>'+esc(x.reply)+'</div>'}).join(""):'')}h+='</div>'}
+ if(S.tab==="ver")h+=verdictHtml();
+ h+='<button class="fab" id="nb">📝 ملاحظاتي'+(S.notes?" •":"")+'</button><div class="sheet'+(S.open?" show":"")+'"><div class="sh"><b>📝 دفتر ملاحظاتي</b><button id="nx">✕</button></div><textarea id="nt" placeholder="سجّل تناقضاتك وشكوكك هنا…">'+esc(S.notes)+'</textarea></div>';$("app").innerHTML=h;
+ $("nb").onclick=function(){S.open=!S.open;draw()};$("nx").onclick=function(){S.open=false;draw()};$("nt").oninput=function(){S.notes=this.value;try{localStorage.setItem("n_"+S.c.title,S.notes)}catch(e){}saveSession()};
+ document.querySelectorAll("[data-pin]").forEach(function(b){b.onclick=function(){S.notes+=(S.notes?"\n":"")+"• "+b.dataset.pin;try{localStorage.setItem("n_"+S.c.title,S.notes)}catch(e){}S.open=true;draw()}});
+ document.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){S.tab=b.dataset.t;draw()}});
+ document.querySelectorAll("[data-w]").forEach(function(b){b.onclick=function(){S.who=b.dataset.w;draw()}});
+ document.querySelectorAll("[data-q]").forEach(function(b){b.onclick=function(){var a=S.asked[S.who]=S.asked[S.who]||[];var i=+b.dataset.q;if(a.indexOf(i)<0&&a.length<3)a.push(i);draw()}});
+ if(S.tab==="ver")bindVerdict();var cb=$("challengeBtn");if(cb)cb.onclick=function(){var ei=+$ ("challengeEv").value;var person=c.suspects.concat(c.witnesses).filter(function(p){return p.id===S.who})[0];var related=(c.evidence[ei].text+" "+c.evidence[ei].title).indexOf(person.name)>=0;var reply=related?"الدليل يذكر هذا الشخص بالاسم، لكنه لا يكفي وحده لإثبات الذنب. قارنه بالتوقيتات وبقية الأدلة قبل الحكم.":"الدليل لا يربط هذا الشخص مباشرةً من النص المتاح. ابحث عن سجل أو شهادة مستقلة قبل اعتباره دليل إدانة.";S.confrontations=S.confrontations||{};S.confrontations[S.who]=S.confrontations[S.who]||[];S.confrontations[S.who].push({e:ei,reply:reply});S.notes+=(S.notes?"\n":"")+"• مواجهة "+person.name+" بدليل "+c.evidence[ei].title+": "+reply;try{localStorage.setItem("n_"+S.c.title,S.notes)}catch(e){}draw()};saveSession()}
+function verdictHtml(){var c=S.c;if(S.done)return resultHtml();
+ return '<div class="card"><h2>من الجاني؟</h2><p class="mut">قد يكون في القضية جانٍ واحد أو اثنان. اختر حتى 2.</p>'+c.suspects.map(function(s){return '<label><input type="checkbox" data-g="'+s.id+'"'+(S.pick[s.id]?" checked":"")+'> '+esc(s.name)+' ('+esc(s.job)+')</label>'}).join("")+'</div><div class="card"><h2>الأدلة التي تثبت حكمك</h2>'+c.evidence.map(function(e,i){return '<label><input type="checkbox" data-e="'+i+'"'+(S.ev[i]?" checked":"")+'> '+esc(e.title)+'</label>'}).join("")+'</div><button class="p" id="go">أصدر الحكم</button>'}
+function bindVerdict(){document.querySelectorAll("[data-g]").forEach(function(r){r.onchange=function(){if(r.checked&&Object.keys(S.pick).filter(function(k){return S.pick[k]}).length>=2){r.checked=false;alert("الحد الأقصى متهمان");return}S.pick[r.dataset.g]=r.checked;saveSession()}});document.querySelectorAll("[data-e]").forEach(function(k){k.onchange=function(){S.ev[k.dataset.e]=k.checked;saveSession()}});var g=$("go");if(g)g.onclick=function(){if(!Object.keys(S.pick).some(function(k){return S.pick[k]})){alert("اختر المتهم أولًا");return}S.done=true;mark();draw()};var n=$("next");if(n)n.onclick=function(){pickDiff()}}
+function resultHtml(){var c=S.c,t=c.truth,cu=t.culpritIds,pk=Object.keys(S.pick).filter(function(k){return S.pick[k]}),hit=pk.filter(function(k){return cu.indexOf(k)>=0}).length,wrong=pk.length-hit,ok=hit===cu.length&&wrong===0;
+ var chosen=Object.keys(S.ev).filter(function(k){return S.ev[k]}).map(Number),good=chosen.filter(function(i){return t.keyEvidence.indexOf(i)>=0}).length;
+ var evS=Math.round(30*good/t.keyEvidence.length)-Math.min(10,(chosen.length-good)*5);evS=Math.max(0,evS);
+ var asked=Object.keys(S.asked).reduce(function(a,k){return a+S.asked[k].length},0),cul=cu.reduce(function(a,k){return a+(S.asked[k]||[]).length},0);
+ var inv=Math.min(20,Math.round(10*Math.min(1,asked/8))+Math.round(5*Math.min(1,cul/(2*cu.length)))+Math.round(5*Math.min(1,Object.keys(S.seen).length/5)));
+ var acc=Math.max(0,Math.round(50*hit/cu.length)-15*wrong),hasKey=chosen.some(function(i){return t.keyEvidence.indexOf(i)>=0});ok=ok&&hasKey;S.sc=acc+evS+inv;
+ var cn=c.suspects.filter(function(s){return cu.indexOf(s.id)>=0}).map(function(s){return s.name}).join(" و ");
+ var inn=c.suspects.filter(function(s){return cu.indexOf(s.id)<0}).map(function(s){return '<li>'+esc(s.name)+': '+esc((t.innocentNotes||{})[s.id]||"بريء")+'</li>'}).join("");
+ var ke=t.keyEvidence.map(function(i){return '<li>'+esc(c.evidence[i].title)+'</li>'}).join("");
+ return '<div class="card"><h2 class="'+(ok?"ok":"bad")+'">'+(ok?"حكم صائب ✅":(hit?"حكم ناقص أو فيه اتهام بريء ⚠️":"حكم خاطئ ❌"))+'</h2><p><b>الجاني/الجناة الحقيقيون:</b> '+esc(cn)+'</p><p>'+esc(t.explanation)+'</p><p><b>الأدلة الحاسمة:</b></p><ul>'+ke+'</ul><p><b>الأبرياء:</b></p><ul>'+inn+'</ul></div><div class="card"><h2>تقييمك: '+S.sc+' / 100</h2><p>دقة الحكم: '+acc+'/50<br>استخدام الأدلة: '+evS+'/30<br>التحقيق وكشف التناقضات: '+inv+'/20</p><p class="mut">'+(ok&&t.keyEvidence.some(function(i){return chosen.indexOf(i)>=0})?"أحسنت أيها القاضي! حُسبت القضية منجزة لأنك اتهمت الجاني الصحيح واستندت إلى دليل حاسم.":"لم تُحتسب هذه القضية منجزة. يلزم تحديد الجاني الصحيح واختيار دليل حاسم واحد على الأقل، وستعود إليك القضية لتحاول مجددًا.")+'</p><button class="p" id="next">'+"قضية جديدة"+'</button></div>'}
+if(!resumeSession())home();
+</script>
+</body>
+</html>
